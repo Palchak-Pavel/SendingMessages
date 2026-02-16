@@ -28,7 +28,8 @@ using var scope = host.Services.CreateScope();
 var emailSvc = scope.ServiceProvider.GetRequiredService<EmailService>();
 var telegramSvc = scope.ServiceProvider.GetRequiredService<TelegramService>();
 
-Console.WriteLine("Введите команду (email/telegram/exit):");
+Console.WriteLine("Введите команду (email/tg/exit):");
+
 
 string? cmd;
 while ((cmd = Console.ReadLine()?.ToLowerInvariant()) != "exit")
@@ -37,6 +38,7 @@ while ((cmd = Console.ReadLine()?.ToLowerInvariant()) != "exit")
     {
         switch (cmd)
         {
+
             case "email":
                 Console.Write("To: ");
                 var to = Console.ReadLine();
@@ -47,16 +49,41 @@ while ((cmd = Console.ReadLine()?.ToLowerInvariant()) != "exit")
                 Console.Write("Body: ");
                 var body = Console.ReadLine();
 
-                await emailSvc.SendEmailAsync(to!, subject!, body!);
+                Console.WriteLine("Введите пути к файлам через запятую (или пусто):");
+                var emailFilesInput = Console.ReadLine();
+
+                var emailFiles = string.IsNullOrWhiteSpace(emailFilesInput)
+                    ? new List<string>()
+                    : emailFilesInput.Split(',')
+                                     .Select(f => f.Trim())
+                                     .ToList();
+
+                if (emailFiles.Any())
+                    await emailSvc.SendEmailWithAttachmentsAsync(to!, subject!, body!, emailFiles);
+                else
+                    await emailSvc.SendEmailAsync(to!, subject!, body!);
                 break;
 
-            case "telegram":
+
+            case "tg":
                 Console.Write("Сообщение: ");
                 var message = Console.ReadLine();
 
-                await telegramSvc.SendMessageAsync(message!);
-                break;
+                Console.WriteLine("Введите пути к файлам через запятую (или пусто):");
+                var tgFilesInput = Console.ReadLine();
 
+                var tgFiles = string.IsNullOrWhiteSpace(tgFilesInput)
+                    ? new List<string>()
+                    : tgFilesInput.Split(',')
+                                  .Select(f => f.Trim())
+                                  .ToList();
+
+                await telegramSvc.SendMessageAsync(message!);
+
+                if (tgFiles.Any())
+                    await telegramSvc.SendFilesAsync(tgFiles);
+
+                break;
             default:
                 Console.WriteLine("Неизвестная команда");
                 break;
@@ -67,5 +94,5 @@ while ((cmd = Console.ReadLine()?.ToLowerInvariant()) != "exit")
         Console.WriteLine($"Ошибка: {ex.Message}");
     }
 
-    Console.WriteLine("\nВведите команду (email/telegram/exit):");
+    Console.WriteLine("\nВведите команду (email/tg/exit):");
 }

@@ -50,3 +50,4 @@
 /Users/pavelpalchak/Documents/Работа/github/SendingMessages/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
 /Users/pavelpalchak/Documents/Работа/github/SendingMessages/obj/Debug/net8.0/SendingMessages.csproj.AssemblyReference.cache
 /Users/pavelpalchak/Documents/Работа/github/SendingMessages/obj/Debug/net8.0/SendingM.5659A97D.Up2Date
+/Users/pavelpalchak/Documents/Работа/github/SendingMessages/obj/Debug/net8.0/SendingMessages.sourcelink.json
