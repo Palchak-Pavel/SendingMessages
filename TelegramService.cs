@@ -11,8 +11,8 @@ public class TelegramService
     private readonly TelegramSettings _settings;
     private readonly ILogger<TelegramService> _logger;
     private readonly TelegramBotClient _client;
-/*     private const long MaxTelegramFileSize = 50 * 1024 * 1024; // 50MB
- */
+    private const long MaxTelegramFileSize = 50 * 1024 * 1024; // 50MB
+ 
 
     public TelegramService(IOptions<TelegramSettings> settings, ILogger<TelegramService> logger)
     {
@@ -48,9 +48,9 @@ public class TelegramService
 
             var fileInfo = new FileInfo(path);
 
-            /* if (fileInfo.Length > MaxTelegramFileSize)
+            if (fileInfo.Length > MaxTelegramFileSize)
                 throw new InvalidOperationException(
-                    $"Файл {fileInfo.Name} превышает лимит 50MB"); */
+                    $"Файл {fileInfo.Name} превышает лимит 50MB");
 
             await using var stream = File.OpenRead(path);
 

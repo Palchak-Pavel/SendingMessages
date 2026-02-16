@@ -9,8 +9,8 @@ public class EmailService
 {
     private readonly EmailSettings _settings;
     private readonly ILogger<EmailService> _logger;
-/*     private const long MaxEmailAttachmentSize = 25 * 1024 * 1024;
- */
+     private const long MaxEmailAttachmentSize = 25 * 1024 * 1024; // 25MB
+ 
     public EmailService(IOptions<EmailSettings> settings, ILogger<EmailService> logger)
     {
         _settings = settings.Value;
@@ -63,9 +63,9 @@ public class EmailService
 
                 var fileInfo = new FileInfo(path);
 
-                /* if (fileInfo.Length > MaxEmailAttachmentSize)
+                 if (fileInfo.Length > MaxEmailAttachmentSize)
                     throw new InvalidOperationException(
-                        $"Файл {fileInfo.Name} превышает лимит 25MB"); */
+                        $"Файл {fileInfo.Name} превышает лимит 25MB"); 
 
                 mail.Attachments.Add(new Attachment(path));
             }
